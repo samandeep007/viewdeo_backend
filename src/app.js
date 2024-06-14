@@ -1,6 +1,25 @@
-import express from 'express';
-const app = express();
+import express, { urlencoded } from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
-app.listen(port, ()=>{
-    console.log(`The server is running at http://localhost:${port}`);
-})
+const app = express();
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  })
+);
+//Read CORS documentation at this point for more information
+
+app.use(
+  express.json({
+    limit: "16kb", //maximum size of the payload
+  })
+);
+
+app.use(express.urlencoded({ extended: true, limit: "16kb" })); //space is encoded as %20 in url, to prevent that we use express.urlencoded()
+app.use(express.static("public")); //public is the name of the folder
+app.use(cookieParser());
+
+
+export { app };

@@ -1,23 +1,18 @@
 //require('dotenv').config({path: './env}) // CommonJS require syntax
 import "dotenv/config"; //We should configure all the environment variables in the file we are going to run first to make sure that the variables are available throughout the application
 import connectDB from "./db/index.js";
+import {app} from './app.js'
 
 
-connectDB();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+connectDB()
+  .then(
+    app.listen(process.env.PORT || 8080, () => {
+      console.log(`App is listening at port ${process.env.PORT || 8080}`);
+    })
+  )
+  .catch((err) => {
+    console.log("MONGODB connection failed !!", err);
+  });
 
 
 
