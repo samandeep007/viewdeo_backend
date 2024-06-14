@@ -3,6 +3,8 @@ import "dotenv/config"; //We should configure all the environment variables in t
 import connectDB from "./db/index.js";
 import {app} from './app.js'
 
+//Middleware: jaane se pehle mujhse milkar jaana
+
 
 connectDB()
   .then(
