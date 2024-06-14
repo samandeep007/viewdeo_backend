@@ -22,4 +22,13 @@ app.use(express.static("public")); //public is the name of the folder
 app.use(cookieParser());
 
 
+//routes
+
+import userRouter from './routes/user.routes.js';
+
+
+//routes declaration
+app.use("/api/v1/users", userRouter) //middleware || standard practice to use version 
+// http:localhost:{port}/api/v1/user/route
+
 export { app };
