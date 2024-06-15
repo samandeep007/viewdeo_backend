@@ -118,7 +118,7 @@ const loginUser = asyncHandler(async (req, res) => {
   // send cookies with tokens
 
   const { username, email, password } = req.body; //using destructuring
-  if (!username || !email) {
+  if (!username && !email) {
     throw new ApiError(400, "username or email required");
   }
 
@@ -134,12 +134,10 @@ const loginUser = asyncHandler(async (req, res) => {
   const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
-    throw new ApiError(401, "password incorrect | Invalud user credentials");
+    throw new ApiError(401, "password incorrect | Invalid user credentials");
   }
 
-  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
-    user._id
-  );
+  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
 
   const loggedInUser = await User.findById(user._id).select(
     "-password -refreshToken"
@@ -165,6 +163,8 @@ const loginUser = asyncHandler(async (req, res) => {
         "User logged in successfully"
       )
     );
+
+    
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
@@ -172,9 +172,9 @@ const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: {
-        refreshToken: undefined,
-      },
+      $unset: {
+        refreshToken: 1 // this removes the field from document
+    }
     },
     {
       new: true,
