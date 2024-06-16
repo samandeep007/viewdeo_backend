@@ -368,6 +368,19 @@ const updateCoverImage = asyncHandler(async (req, res) => {
     throw new ApiError(409, "Something went wrong while updating cover image");
   }
 });
+
+const updateUsername = asyncHandler(async(req,res) => {
+  const {username} = req.body;
+
+  if(!username){
+    throw new ApiError(404, "username doesn't exist")
+  }
+
+  const user = User.findByIdAndUpdate(req.user?._id, { $set: {username: username}}, {new: true} ).select("-password");
+  res.send(200).json(new ApiResponse(200, user, "Username updated successfully"));
+})
+
+
 export {
   registerUser,
   loginUser,
@@ -378,4 +391,6 @@ export {
   updateAccountDetails,
   updateUserAvatar,
   updateCoverImage,
+  updateUsername,
+  
 };
