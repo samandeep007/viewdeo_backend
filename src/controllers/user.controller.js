@@ -37,6 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
   // check for user creation
   // return response
 
+
   // get user details from frontend
   const { username, fullName, email, password } = req.body;
   console.log(req.body);
@@ -272,6 +273,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
 const getCurrentUser = asyncHandler(
   asyncHandler(async (req, res) => {
+  
     return res
       .status(200)
       .json(
@@ -319,7 +321,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
       throw new ApiError(400, "Error while uploading Avatar on cloudinary");
     }
 
-    const user = User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       req.user?._id,
       {
         $set: {
@@ -351,7 +353,7 @@ const updateCoverImage = asyncHandler(async (req, res) => {
         "Error while uploading cover image on cloudinary"
       );
     }
-    const user = User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       req.user?._id,
       {
         $set: {
@@ -376,7 +378,7 @@ const updateUsername = asyncHandler(async(req,res) => {
     throw new ApiError(404, "username doesn't exist")
   }
 
-  const user = User.findByIdAndUpdate(req.user?._id, { $set: {username: username}}, {new: true} ).select("-password");
+  const user = await User.findByIdAndUpdate(req.user?._id, { $set: {username: username}}, {new: true} ).select("-password");
   res.send(200).json(new ApiResponse(200, user, "Username updated successfully"));
 })
 
