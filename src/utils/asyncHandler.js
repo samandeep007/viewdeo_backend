@@ -1,6 +1,6 @@
-const asyncHandler = (requestHandler) => {
- return (req, res, next) => {
-    Promise.resolve(requestHandler(req,res, next))
+const asyncHandler = (requestHandler) => { // requestHandler is a function that takes req, res, next. The value returned from requestHandler is a promise which is passed to the next middleware function
+ return (req, res, next) => {  // this function returns a function that takes req, res, next
+    Promise.resolve(requestHandler(req,res, next)) // next is a function that passes control to the next middleware function
     .catch((err) => next(err));
   };
 };

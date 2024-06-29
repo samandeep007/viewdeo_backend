@@ -1,4 +1,4 @@
-class ApiResponse {
+class ApiResponse { // ApiResponse class to standardize the response format
     constructor(statusCode, data, message = "Success"){
         this.statusCode = statusCode;
         this.data = data;

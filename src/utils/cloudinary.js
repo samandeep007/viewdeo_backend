@@ -1,6 +1,11 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs"; //file system in node: built in library: Read documentation
 
+//documentation: https://cloudinary.com/documentation/node_integration
+//fs: https://nodejs.org/api/fs.html
+
+//fs is a built-in library in node.js to work with the file system. It provides a lot of file system related functionality. it is used to read and write files.
+
 // Configuration
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

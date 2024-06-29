@@ -52,7 +52,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // check if user already exists: username, email
   const existedUser = await User.findOne({
-    $or: [{ username }, { email }],
+    $or: [{ username }, { email }], //$or operator takes an array and returns documents that match any of the expressions in the array
   });
 
   if (existedUser) {
@@ -61,16 +61,16 @@ const registerUser = asyncHandler(async (req, res) => {
 
   console.log(req.files);
   // check for images, check for avatar --> multer
-  const avatarLocalPath = req.files?.avatar[0]?.path;
+  const avatarLocalPath = req.files?.avatar[0]?.path; 
 
   let coverImageLocalPath;
 
-  if (
-    req.files &&
-    Array.isArray(req.files?.coverImage) &&
-    req.files.coverImage.length > 0
+  if ( 
+    req.files && // check if files exist in request
+    Array.isArray(req.files?.coverImage) && // check if coverImage is an array
+    req.files.coverImage.length > 0 // check if coverImage array has atleast one element
   ) {
-    coverImageLocalPath = req.files?.coverImage[0]?.path;
+    coverImageLocalPath = req.files?.coverImage[0]?.path; // get the path of the first element
   }
 
   if (!avatarLocalPath) {
@@ -90,8 +90,8 @@ const registerUser = asyncHandler(async (req, res) => {
     fullName,
     email,
     username: username.toLowerCase(),
-    avatar: avatar.url,
-    coverImage: coverImage?.url || "",
+    avatar: avatar.url, // url is the key in the response object
+    coverImage: coverImage?.url || "", // url is the key in the response object
     password,
   });
 
@@ -139,7 +139,7 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(401, "password incorrect | Invalid user credentials");
   }
 
-  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens( //generate access and refresh tokens
     user._id
   );
 

@@ -18,10 +18,10 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 router.route("/register").post(
-  upload.fields([
+  upload.fields([ //fields is used to upload multiple files at once. This method comes from multer
     {
       name: "avatar",
-      maxCount: 1,
+      maxCount: 1, //maxCount is used to specify the maximum number of files that can be uploaded
     },
     {
       name: "coverImage",
@@ -46,7 +46,7 @@ router.route("/update-userAvatar").patch(verifyJWT, upload.single([{
   maxCount: 1
 }]), updateUserAvatar);
 
-router.route("/update-userCoverImage").patch(verifyJWT, upload.single([{
+router.route("/update-userCoverImage").patch(verifyJWT, upload.single([{ //single is used to upload a single file at once
   name: "coverImage",
   maxCount: 1
 }]), updateCoverImage);
